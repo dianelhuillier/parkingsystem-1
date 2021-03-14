@@ -17,6 +17,7 @@ public class FareCalculatorServiceTest {
 
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
+    long timestampMS = System.currentTimeMillis();
 
     @BeforeAll
     private static void setUp() {
@@ -38,7 +39,9 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        //fareCalculatorService.calculateFare(ticket);
+        ticket.setPrice(fareCalculatorService.calculateFare(ticket, 1));
+
         assertEquals(ticket.getPrice(), Fare.CAR_RATE_PER_HOUR);
     }
 
@@ -52,11 +55,12 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        //fareCalculatorService.calculateFare(ticket);
+        ticket.setPrice(fareCalculatorService.calculateFare(ticket, 1));
         assertEquals(ticket.getPrice(), Fare.BIKE_RATE_PER_HOUR);
     }
 
-    @Test
+    @Test 
     public void calculateFareUnkownType(){
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
@@ -66,7 +70,7 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        assertThrows(NullPointerException.class, () -> fareCalculatorService.calculateFare(ticket));
+        assertThrows(NullPointerException.class, () -> fareCalculatorService.calculateFare(ticket, 1));
     }
 
     @Test
@@ -79,7 +83,7 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
+        assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket, 1));
     }
 
     @Test
@@ -92,7 +96,8 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+       // fareCalculatorService.calculateFare(ticket);
+        ticket.setPrice(fareCalculatorService.calculateFare(ticket, 1));
         assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice() );
     }
 
@@ -106,8 +111,9 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
-        assertEquals( (0.75 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
+      //  fareCalculatorService.calculateFare(ticket);
+        ticket.setPrice(fareCalculatorService.calculateFare(ticket, 1));
+        assertEquals((0.75 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
     }
 
     @Test
@@ -120,8 +126,27 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+    //    fareCalculatorService.calculateFare(ticket);
+        ticket.setPrice(fareCalculatorService.calculateFare(ticket, 1));
         assertEquals( (24 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
     }
 
+    @Test
+    public void calculateFareCarWithLessThanHalfHourParkingTime(){
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (15 * 60 * 1000) );
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setPrice(fareCalculatorService.calculateFare(ticket, 1));
+        assertEquals((0.25 * Fare.PARK_LESS_THAN_HALF_HOUR) , ticket.getPrice());
+    }
+
+	public static double calculateFare(Ticket ticket2, int nombreOccurenceTicket) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
