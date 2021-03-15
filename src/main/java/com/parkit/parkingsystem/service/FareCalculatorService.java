@@ -37,11 +37,13 @@ public class FareCalculatorService {
 		}else if (duration > 0.5 && nombreOccurenceTicket > 1)
 			switch (ticket.getParkingSpot().getParkingType()){
 			case CAR: {
+				System.out.println( "Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
 				//  ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
 				return duration * Fare.CAR_RATE_PER_HOUR * 0.95;
 				//break; 
 			}
 			case BIKE: {
+				System.out.println( "Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
 				//     ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
 				return duration * Fare.BIKE_RATE_PER_HOUR * 0.95;
 				//      break;

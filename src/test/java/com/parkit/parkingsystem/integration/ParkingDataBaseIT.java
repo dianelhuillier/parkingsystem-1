@@ -96,7 +96,7 @@ public class ParkingDataBaseIT {
 		testParkingACar();
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		
-		Timestamp tsBefore = new Timestamp(System.currentTimeMillis() - 2000);
+		Timestamp tsBefore = new Timestamp(System.currentTimeMillis() - 20000);
 		parkingService.processExitingVehicle();
 		Timestamp tsAfter = new Timestamp(System.currentTimeMillis() + 20000);
 		//TODO: check that the fare generated and out time are populated correctly in the database
